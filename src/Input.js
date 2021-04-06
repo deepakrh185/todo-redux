@@ -1,23 +1,32 @@
 import React, { useState } from "react";
 import "./Input.css";
+import { useDispatch } from "react-redux";
+import {saveTodo} from "./features/todoSlice";
 
 function Input() {
   const [input, setInput] = useState("");
-  console.log(input);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setInput(e.target.value);
+  const dispatch = useDispatch();
+
+  const addTodo = () => {
+    console.log("adding", input);
+    dispatch(
+      saveTodo({
+        item: input,
+        done: false,
+        id: Date.now(),
+      })
+    );
   };
+  console.log(input);
+
   return (
     <div className="input">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button type="submit">Add</button>
-      </form>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button onClick={addTodo}>Add</button>
     </div>
   );
 }
